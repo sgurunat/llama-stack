@@ -305,4 +305,15 @@ def available_providers() -> list[ProviderSpec]:
                 provider_data_validator="llama_stack.providers.remote.inference.watsonx.WatsonXProviderDataValidator",
             ),
         ),
+        remote_provider_spec(
+            api=Api.inference,
+            adapter=AdapterSpec(
+                adapter_type="intel",
+                pip_packages=[
+                    "openai",
+                ],
+                module="llama_stack.providers.remote.inference.intel",
+                config_class="llama_stack.providers.remote.inference.intel.IntelConfig",
+            ),
+        ),
     ]

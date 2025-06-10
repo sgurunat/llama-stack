@@ -1,0 +1,27 @@
+version: '1'
+distribution_spec:
+  description: Use Intel for running LLM inference
+  providers:
+    inference:
+    - remote::intel
+    - inline::sentence-transformers
+    vector_io:
+    - inline::faiss
+    safety:
+    - inline::llama-guard
+    agents:
+    - inline::meta-reference
+    telemetry:
+    - inline::meta-reference
+    eval:
+    - inline::meta-reference
+    datasetio:
+    - inline::localfs
+    scoring:
+    - inline::basic
+    tool_runtime:
+    - inline::rag-runtime
+image_type: container
+additional_pip_packages:
+- aiosqlite
+- sqlalchemy[asyncio]
