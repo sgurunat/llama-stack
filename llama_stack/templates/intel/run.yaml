@@ -1,4 +1,4 @@
-version: '1'
+version: '2'
 image_name: intel
 apis:
 - agents
@@ -15,11 +15,8 @@ providers:
   - provider_id: intel
     provider_type: remote::intel
     config:
-      url: ${env.INTEL_BASE_URL:https://inference.api.intel.com}
+      url: ${env.INTEL_BASE_URL:https://api.inference.denvrdata.com/v1}
       api_key: ${env.INTEL_API_KEY:}
-  - provider_id: sentence-transformers
-    provider_type: inline::sentence-transformers
-    config: {}
   vector_io:
   - provider_id: faiss
     provider_type: inline::faiss
@@ -31,7 +28,8 @@ providers:
   safety:
   - provider_id: llama-guard
     provider_type: inline::llama-guard
-    config: {}
+    config:
+      excluded_categories: []
   agents:
   - provider_id: meta-reference
     provider_type: inline::meta-reference
@@ -76,15 +74,25 @@ providers:
     config: {}
 metadata_store:
   type: sqlite
-  db_path: ${env.SQLITE_STORE_DIR:~/.llama/distributions/intel}/registry_1.db
+  db_path: ${env.SQLITE_STORE_DIR:~/.llama/distributions/intel}/registry.db
 inference_store:
   type: sqlite
-  db_path: ${env.SQLITE_STORE_DIR:~/.llama/distributions/intel}/inference_store_1.db
+  db_path: ${env.SQLITE_STORE_DIR:~/.llama/distributions/intel}/inference_store.db
 models:
 - metadata: {}
   model_id: meta-llama/Llama-3.3-70B-Instruct
   provider_id: intel
   provider_model_id: meta-llama/Llama-3.3-70B-Instruct
+  model_type: llm
+- metadata: {}
+  model_id: meta-llama/Llama-3.3-70B-Instruct
+  provider_id: intel
+  provider_model_id: meta-llama/Llama-3.3-70B-Instruct
+  model_type: llm
+- metadata: {}
+  model_id: meta-llama/Llama-3.2-1B-Instruct
+  provider_id: intel
+  provider_model_id: meta-llama/Llama-3.2-1B-Instruct
   model_type: llm
 - metadata: {}
   model_id: meta-llama/Llama-3.2-1B-Instruct
@@ -97,6 +105,16 @@ models:
   provider_model_id: meta-llama/Llama-3.2-3B-Instruct
   model_type: llm
 - metadata: {}
+  model_id: meta-llama/Llama-3.2-3B-Instruct
+  provider_id: intel
+  provider_model_id: meta-llama/Llama-3.2-3B-Instruct
+  model_type: llm
+- metadata: {}
+  model_id: meta-llama/Llama-3.1-70B-Instruct
+  provider_id: intel
+  provider_model_id: meta-llama/Llama-3.1-70B-Instruct
+  model_type: llm
+- metadata: {}
   model_id: meta-llama/Llama-3.1-70B-Instruct
   provider_id: intel
   provider_model_id: meta-llama/Llama-3.1-70B-Instruct
@@ -106,11 +124,11 @@ models:
   provider_id: intel
   provider_model_id: meta-llama/Meta-Llama-3.1-8B-Instruct
   model_type: llm
-- metadata:
-    embedding_dimension: 384
-  model_id: all-MiniLM-L6-v2
-  provider_id: sentence-transformers
-  model_type: embedding
+- metadata: {}
+  model_id: meta-llama/Llama-3.1-8B-Instruct
+  provider_id: intel
+  provider_model_id: meta-llama/Meta-Llama-3.1-8B-Instruct
+  model_type: llm
 shields: []
 vector_dbs: []
 datasets: []

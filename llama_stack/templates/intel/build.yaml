@@ -1,10 +1,9 @@
-version: '1'
+version: '2'
 distribution_spec:
   description: Use Intel for running LLM inference
   providers:
     inference:
     - remote::intel
-    - inline::sentence-transformers
     vector_io:
     - inline::faiss
     safety:
