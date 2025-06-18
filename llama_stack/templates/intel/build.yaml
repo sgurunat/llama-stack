@@ -20,7 +20,7 @@ distribution_spec:
     - inline::basic
     tool_runtime:
     - inline::rag-runtime
-image_type: container
+image_type: conda
 additional_pip_packages:
 - aiosqlite
 - sqlalchemy[asyncio]
