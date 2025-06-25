@@ -163,6 +163,9 @@ class InferenceRouter(Inference):
         messages: list[Message] | InterleavedContent,
         tool_prompt_format: ToolPromptFormat | None = None,
     ) -> int | None:
+        if not hasattr(self, "formatter") or self.formatter is None:
+            return None
+
         if isinstance(messages, list):
             encoded = self.formatter.encode_dialog_prompt(messages, tool_prompt_format)
         else:
@@ -423,6 +426,7 @@ class InferenceRouter(Inference):
         user: str | None = None,
         guided_choice: list[str] | None = None,
         prompt_logprobs: int | None = None,
+        suffix: str | None = None,
     ) -> OpenAICompletion:
         logger.debug(
             f"InferenceRouter.openai_completion: {model=}, {stream=}, {prompt=}",
@@ -453,6 +457,7 @@ class InferenceRouter(Inference):
             user=user,
             guided_choice=guided_choice,
             prompt_logprobs=prompt_logprobs,
+            suffix=suffix,
         )
 
         provider = self.routing_table.get_provider_impl(model_obj.identifier)
@@ -610,7 +615,7 @@ class InferenceRouter(Inference):
                     continue
                 health = await asyncio.wait_for(impl.health(), timeout=timeout)
                 health_statuses[provider_id] = health
-            except (asyncio.TimeoutError, TimeoutError):
+            except TimeoutError:
                 health_statuses[provider_id] = HealthResponse(
                     status=HealthStatus.ERROR,
                     message=f"Health check timed out after {timeout} seconds",
