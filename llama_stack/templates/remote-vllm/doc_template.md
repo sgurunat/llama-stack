@@ -198,6 +198,47 @@ docker run \
     --port $SAFETY_PORT
 ```
 
+## Setting up vLLM Server on Intel CPU (Xeon)
+
+Intel provides a prebuilt Docker container for running vLLM on systems with Intel CPUs, such as Xeon processors. This is ideal for environments without discrete GPUs or for CPU-based inference workloads.
+
+### Running vLLM Server on Intel CPU
+
+Here is a sample script to start a vLLM server locally via Docker using the Intel CPU container:
+
+```bash
+export INFERENCE_PORT=8000
+export INFERENCE_MODEL=meta-llama/Llama-3.2-1B-Instruct
+
+docker run \
+    --pull always \
+    -v ~/.cache/huggingface:/root/.cache/huggingface \
+    --env "HUGGING_FACE_HUB_TOKEN=$HF_TOKEN" \
+    -p $INFERENCE_PORT:$INFERENCE_PORT \
+    --ipc=host \
+    inteldpo/vllm-cpu:0.5.4 \
+    --model $INFERENCE_MODEL \
+    --max-model-len 32768 \
+    --port $INFERENCE_PORT
+```
+
+If you are using Llama Stack Safety / Shield APIs, then you will need to also run another instance of a vLLM with a corresponding safety model like `meta-llama/Llama-Guard-3-1B` using a script like:
+
+```bash
+export SAFETY_PORT=8081
+export SAFETY_MODEL=meta-llama/Llama-Guard-3-1B
+
+docker run \
+    --pull always \
+    -v ~/.cache/huggingface:/root/.cache/huggingface \
+    --env "HUGGING_FACE_HUB_TOKEN=$HF_TOKEN" \
+    -p $SAFETY_PORT:$SAFETY_PORT \
+    --ipc=host \
+    inteldpo/vllm-cpu:0.5.4 \
+    --model $SAFETY_MODEL \
+    --port $SAFETY_PORT
+```
+
 ## Running Llama Stack
 
 Now you are ready to run Llama Stack with vLLM as the inference provider. You can do this via Conda (build code) or Docker which has a pre-built image.
@@ -282,3 +323,4 @@ llama stack run ./run-with-safety.yaml \
   --env SAFETY_MODEL=$SAFETY_MODEL \
   --env SAFETY_VLLM_URL=http://localhost:$SAFETY_PORT/v1
 ```
+
