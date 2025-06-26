@@ -281,6 +281,7 @@ class IntelInferenceAdapter(Inference, ModelRegistryHelper):
         user: str | None = None,
         guided_choice: list[str] | None = None,
         prompt_logprobs: int | None = None,
+        suffix: str | None = None,
     ) -> OpenAICompletion:
         provider_model_id = await self._get_provider_model_id(model)
 
