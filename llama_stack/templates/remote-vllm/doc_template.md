@@ -216,7 +216,7 @@ docker run \
     --env "HUGGING_FACE_HUB_TOKEN=$HF_TOKEN" \
     -p $INFERENCE_PORT:$INFERENCE_PORT \
     --ipc=host \
-    inteldpo/vllm-cpu:0.5.4 \
+    public.ecr.aws/q9t5s3a7/vllm-cpu-release-repo:v0.9.2 \
     --model $INFERENCE_MODEL \
     --max-model-len 32768 \
     --port $INFERENCE_PORT
@@ -234,7 +234,7 @@ docker run \
     --env "HUGGING_FACE_HUB_TOKEN=$HF_TOKEN" \
     -p $SAFETY_PORT:$SAFETY_PORT \
     --ipc=host \
-    inteldpo/vllm-cpu:0.5.4 \
+    public.ecr.aws/q9t5s3a7/vllm-cpu-release-repo:v0.9.2 \
     --model $SAFETY_MODEL \
     --port $SAFETY_PORT
 ```
